@@ -9,24 +9,21 @@ import { CategoryState } from "../atoms";
 import { ICoin } from "../interface";
 
 interface IProps {
-  data?: ICoin[];
+  datas?: ICoin[];
   type: string;
 }
 
-function Coins({ data, type }: IProps) {
-  // 첫 랜더 시 로딩이 보이고 그 이후부턴 로딩이 안보이는 이유(detail페이지 갔다와도) : react query가 데이터를 캐시에 저장해둔다.
-
-  // console.log(category);
+function Coins({ datas, type }: IProps) {
   //   const location = useLocation();
   //   const params = new URLSearchParams(location.search);
   //   const listType = params.get("type");
   return (
     <>
       {type && <Title>{type.toUpperCase()}</Title>}
-      {data &&
-        data.map((coin, index) => (
+      {datas &&
+        datas.map((coin, index) => (
           <CoinWrapper key={coin.id}>
-            <Link href={`/${coin.id}?type=${type}`}>
+            <Link href={`/info/${coin.id}?type=${type}`}>
               <Rank>{coin.rank}</Rank>
               <Img
                 src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
