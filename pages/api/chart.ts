@@ -2,7 +2,6 @@ import { NextApiResponse, NextApiRequest } from "next";
 import axios from "axios";
 
 const chart = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("req", req);
   const coinId = req.query.coinId;
 
   if (!coinId || typeof coinId !== "string") {

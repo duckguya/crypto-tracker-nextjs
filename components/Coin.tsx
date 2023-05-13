@@ -6,12 +6,24 @@ import { ICoinList, IInfoData, IPriceData } from "../interface";
 import Coins from "./Coins";
 import { useLocation } from "react-router-dom";
 import Chart from "./Chart";
+import { fetchCoinHistory } from "@/api";
 
 // interface
 interface ILocation {
   state: {
     name: string;
   };
+}
+interface IHistorical {
+  time_open: string;
+  time_close: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  market_cap: number;
+  error?: string;
 }
 interface IProps {
   info: IInfoData;
@@ -27,6 +39,16 @@ function Coin(datas: IProps) {
   const [coins, setCoins] = useState<ICoinList[]>();
   const [type, setType] = useState<string>();
   const [coinId, setCoinId] = useState<string>();
+
+  const {
+    isLoading: isLoadingChart,
+    data: chartData,
+    isError: IsErrorChart,
+  } = useQuery<IHistorical[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId ? coinId : ""),
+    { enabled: !!coinId }
+  );
 
   useEffect(() => {
     setInfo(datas?.info);
@@ -84,7 +106,14 @@ function Coin(datas: IProps) {
             <TapWrapper>
               <Tap isActive={true}>
                 chart
-                {coinId && <Chart coinId={coinId} />}
+                {chartData && (
+                  <Chart
+                    data={chartData}
+                    isLoading={isLoadingChart}
+                    isError={IsErrorChart}
+                  />
+                )}
+                {/* {coinId && <Chart coinId={coinId} />} */}
                 {/* <Link href={`/${coinId}/chart?type=${type}`}>chart</Link> */}
               </Tap>
               <Tap isActive={false}>

@@ -10,8 +10,10 @@ import { useEffect } from "react";
 import chart from "@/pages/api/chart";
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-interface IChartProps {
-  coinId: string;
+interface IProps {
+  data: IHistorical[];
+  isLoading: boolean;
+  isError: boolean;
 }
 interface IHistorical {
   time_open: string;
@@ -24,31 +26,32 @@ interface IHistorical {
   market_cap: number;
   error?: string;
 }
-function Chart({ coinId }: IChartProps) {
+function Chart({ data, isLoading, isError }: IProps) {
   //   const { coinId } = useOutletContext<IChartProps>();
   //   const location = useLocation();
   //   const params = new URLSearchParams(location.search);
   const isDark = useRecoilValue(isDarkAtom);
 
-  const { isLoading, data, isError } = useQuery<IHistorical[]>(
-    ["ohlcv", coinId],
-    () => fetchCoinHistory(coinId),
-    { enabled: !!coinId }
-  );
+  // const { isLoading, data, isError } = useQuery<IHistorical[]>(
+  //   ["ohlcv", coinId],
+  //   () => fetchCoinHistory(coinId),
+  //   { enabled: !!coinId }
+  // );
 
   console.log("chart data: ", data);
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
   }, []);
 
   return (
     <>
       <div>
         {isError && "해당 암호화폐는 차트가 지원되지 않습니다."}
-        {isLoading ? (
-          "Loading chart..."
-        ) : (
+        {isLoading && "Loading chart..."}
+        {data && (
           <ApexCharts
+            width={"100%"}
+            height={150}
             type="candlestick"
             series={[
               {

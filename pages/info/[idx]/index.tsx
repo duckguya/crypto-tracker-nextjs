@@ -21,14 +21,12 @@ const Page = (data: IProps) => (
 export async function getServerSideProps(context: any) {
   try {
     // const { req, res, query, params } = context;
-    console.log(1, context);
     const {
       query: { idx, type },
     } = context;
     const info = await fetchCoinInfo(idx);
     const tickers = await fetchCoinTickers(idx);
     const coins = await GetCoins("rank");
-    console.log(2);
 
     return {
       props: {

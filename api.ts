@@ -55,13 +55,11 @@ export async function GetCoins(category: string) {
 }
 
 export async function fetchCoinInfo(coinId: string | undefined) {
-  console.log("coinId", coinId);
   const response = await axios.get(`${BASE_URL}/coins/${coinId}`);
   return response.data;
 }
 
 export async function fetchCoinTickers(coinId: string | undefined) {
-  console.log("coinId", coinId);
   const response = await axios.get(`${BASE_URL}/tickers/${coinId}`);
   return response.data;
 }
