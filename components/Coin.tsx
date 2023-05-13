@@ -7,6 +7,7 @@ import Coins from "./Coins";
 import { useLocation } from "react-router-dom";
 import Chart from "./Chart";
 import { fetchCoinHistory } from "@/api";
+import Price from "./Price";
 
 // interface
 interface ILocation {
@@ -113,15 +114,12 @@ function Coin(datas: IProps) {
                     isError={IsErrorChart}
                   />
                 )}
-                {/* {coinId && <Chart coinId={coinId} />} */}
-                {/* <Link href={`/${coinId}/chart?type=${type}`}>chart</Link> */}
               </Tap>
               <Tap isActive={false}>
                 price
-                {/* <Link href={`/${coinId}/price?type=${type}`}>price</Link> */}
+                {tickers && <Price {...tickers} />}
               </Tap>
             </TapWrapper>
-            {/* <Outlet context={{ coinId: coinId }} /> */}
           </>
         )}
       </DetailWrapper>
@@ -180,7 +178,7 @@ const Loader = styled.span`
 
 const TapWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 2fr);
   margin: 25px 0;
   gap: 10px;
 `;

@@ -3,21 +3,23 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinTickers } from "../api";
 import { IPriceData } from "../interface";
-import ApexCharts from "react-apexcharts";
+// import ApexCharts from "react-apexcharts";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atoms";
+import dynamic from "next/dynamic";
 
+const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 const xLabel = ["1y", "30d", "7d", "24h", "12h", "6h", "1h", "30m", "15m"];
 
-function Price() {
+function Price(data: IPriceData) {
   const { coinId } = useParams();
   const isDark = useRecoilValue(isDarkAtom);
 
-  const { isLoading, data } = useQuery<IPriceData>(
-    ["price", coinId],
-    () => fetchCoinTickers(coinId)
-    // { refetchInterval: 5000 }
-  );
+  // const { isLoading, data } = useQuery<IPriceData>(
+  //   ["price", coinId],
+  //   () => fetchCoinTickers(coinId)
+  //   // { refetchInterval: 5000 }
+  // );
 
   /*
       percent_change_1h: any; // 변동
@@ -33,7 +35,7 @@ function Price() {
 
   return (
     <>
-      {isLoading ? (
+      {false ? (
         "Loading price..."
       ) : (
         <>
@@ -93,6 +95,8 @@ function Price() {
           {/*  */}
           <ApexCharts
             type="line"
+            width={"100%"}
+            height={150}
             series={[
               {
                 name: "price",

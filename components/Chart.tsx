@@ -38,7 +38,6 @@ function Chart({ data, isLoading, isError }: IProps) {
   //   { enabled: !!coinId }
   // );
 
-  console.log("chart data: ", data);
   useEffect(() => {
     // console.log(data);
   }, []);
@@ -51,7 +50,7 @@ function Chart({ data, isLoading, isError }: IProps) {
         {data && (
           <ApexCharts
             width={"100%"}
-            height={150}
+            height={350}
             type="candlestick"
             series={[
               {
